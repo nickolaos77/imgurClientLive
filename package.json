@@ -1,0 +1,34 @@
+{
+  "name": "boilerplate",
+  "version": "1.0.0",
+  "description": "Simple react app",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel-register --require babel-polyfill ./app/tests/**/*.jsx",
+    "start": "node server.js"
+  },
+  "author": "Nick Papasavvas",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.13.4",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-redux": "^5.0.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.5.1",
+    "babel-loader": "^6.2.2",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-register": "^6.24.0",
+    "chai": "^3.5.0",
+    "deep-freeze-strict": "^1.1.1",
+    "expect": "^1.14.0",
+    "karma-webpack": "^1.7.0",
+    "mocha": "^2.5.3",
+    "react-addons-test-utils": "^0.14.7",
+    "webpack": "^1.12.13"
+  }
+}

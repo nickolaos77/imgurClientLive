@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <title>Simple Imgur Client</title>
+  <style>
+   html, 
+   body {height:98%;
+        margin:0px;
+        padding:0px;}
+    body {
+       background: #3f99cd;
+    }
+    .albumImages{
+      display: block;
+      margin:auto;
+    }
+    a:hover{
+      text-decoration: none;
+    }
+    
+    .myWrapper{
+      height:100%;
+    }
+    
+    .spacer{
+      height:40%;
+    }
+    .panel {
+      border: 0.2px solid rgba(136, 136, 136, 0.16);
+      margin-bottom: 10px;
+    }
+    
+    /* force scrollbar */
+    
+    html {
+      overflow-y: scroll;
+    }
+    
+    .grid-item {
+      width: 200px;
+      margin: 5px;
+      padding: 4px;
+    }
+    
+    .grid-item:hover {
+/*      box-shadow: 2px 4px 4px 2px grey;*/
+      opacity:0.7;
+    }
+    
+    .grid-item img {
+      display: block;
+      width: 100%;
+      padding: 2px;
+      padding-bottom: 0px;
+    }
+    
+    .margin{
+      margin:20px; 
+    }
+    
+    #albumsList{
+      display:flex; 
+      flex-wrap:wrap; 
+      justify-content:center; 
+      align-items:flex-start;
+    }
+     
+  </style>
+</head>
+<body>
+ 
+ <div style="height:100%" id="app"></div>
+ 
+  <script>
+//    this code is from imgur documentation the JavaScript token part
+//     var params = {}, queryString = location.hash.substring(1),
+//     regex = /([^&=]+)=([^&]*)/g, m;
+//     while (m = regex.exec(queryString)) {
+//        params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+//}
+//
+//// And send the token over to the server
+////console.log(queryString);
+//    document.getElementById("test").innerHTML=queryString;
+//     
+//    var endOfToken      = queryString.indexOf("&expires_in");
+//    var Token           = queryString.slice(13,endOfToken);
+//    var startOfUserName = queryString.indexOf("&account_username")+ 18;
+//    var endOfUserName   = queryString.indexOf("&account_id");
+//    var userName        = queryString.slice(startOfUserName,endOfUserName);
+//    var authHeaderValue = "Bearer " + Token;
+//    
+//    
+//    var myInit = { method: 'GET',
+//               headers: {Authorization:authHeaderValue}
+//               };
+//    
+//    
+//      fetch("https://api.imgur.com/3/account/" + userName +"/albums/",myInit).then( response =>               response.json() ).then( data =>{console.log(data)})
+        
+  </script>
+   <script src="../../bundle.js"></script>
+<!--   <script src="/custom.js"></script>-->
+</body>
+</html>
