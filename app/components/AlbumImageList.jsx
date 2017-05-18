@@ -8,15 +8,17 @@ class AlbumImageList extends React.Component{
   }
   
   renderImages(){
-    return  this.props.images.map((image,idx)=>{
+        
+      var numberOfImagesInAlbum = this.props.images.length;
+      return  this.props.images.map((image,idx)=>{
       //the thumbnailUrl points to the imgur thubnail
       var thumbnailUrl = image.link.replace( image.id, image.id + "b" );
       return ( <Image 
       onImageSelect={this.props.onImageSelect}
-      key          ={idx} 
-      index        = {idx}
-      thumbnailUrl = {thumbnailUrl}  
-      image        = {image}/>)} )
+      key                    = {idx} 
+      index                  = {idx}
+      thumbnailUrl           = {thumbnailUrl}  
+      image                  = {image}/>)} )
   }
     
   render(){

@@ -5,14 +5,15 @@ import AlbumImageList    from './AlbumImageList.jsx';
 class MyApp extends React.Component{
   constructor(props){
     super(props);
-    this.state = {albums:[], selectedAlbum:null, albumImagesUrls:[], selectedImage:null, receivedToken:false, myInit:{}, user:""}
+    this.state = {albums:[], selectedAlbum:null, selectedImage:null,index:null, receivedToken:false, myInit:{}, user:"", fetchingDataCompleted:false}
     
     this.showLargeThumbnail=this.showLargeThumbnail.bind(this);
-    
+    this.nextImageStateSetter   = this.nextImageStateSetter.bind(this);
+    this.previousImageStateSetter = this.previousImageStateSetter.bind(this);
   }
   
   componentDidMount(){ 
-    
+     
      if (location.hash.length){
       this.setState({receivedToken:true}) 
      // code from https://api.imgur.com/oauth2
@@ -64,7 +65,7 @@ class MyApp extends React.Component{
         var newAlbumWithImages = Object.assign({},album,{images:albumImagesObject.images});
         var newAlbums          = this.state.albums.slice();
         newAlbums[index]       = newAlbumWithImages;
-        this.setState({albums:newAlbums});  
+        this.setState({albums:newAlbums, fetchingDataCompleted:true});  
         } } )
         } )         
     }).catch(function catchAllErrors(error){console.log(error)})
@@ -83,12 +84,37 @@ class MyApp extends React.Component{
     return thumbnailUrl;
   }
   
+  nextImageStateSetter(){
+   var nextImage = (this.state.index + 1==this.state.selectedAlbum.images.length)
+                    ? this.state.selectedAlbum.images[0]
+                    : this.state.selectedAlbum.images[this.state.index+1]
+   var indexOfNextImage=(this.state.index+1 ==this.state.selectedAlbum.images.length) 
+                        ? 0 : this.state.index+1
+   this.setState({selectedImage:nextImage, index:indexOfNextImage})
+  }
+  
+   previousImageStateSetter(){
+   var previousImage = (this.state.index == 0)
+                    ? this.state.selectedAlbum.images[this.state.selectedAlbum.images.length -1 ]
+                    : this.state.selectedAlbum.images[this.state.index - 1]
+   var indexOfpreviousImage=(this.state.index ==0) 
+                        ? this.state.selectedAlbum.images.length -1 : this.state.index-1
+   this.setState({selectedImage:previousImage, index:indexOfpreviousImage})
+  }
+  
+  
   render(){
     
       if (this.state.selectedImage){
     return(
       <div id="MyApp" className="container">
-        <button className="btn btn-primary btn-lg  margin" onClick={()=>{this.setState({selectedImage:null})}}>Back to all the Images of the Album</button>
+      <div className="buttonGroupWrapper" style={{marginTop:20, marginBottom:20}}>
+       
+        <button className="btn-group btn-primary btn-lg"   onClick={()=>{ this.previousImageStateSetter() }}>&lt;</button>
+        <button className="btn-group btn-primary btn-lg" style={{marginLeft:10, marginRight:10}} onClick={()=>{this.setState({selectedImage:null})}}>Album</button>
+       <button className="btn-group btn-primary btn-lg"   onClick={()=>{ this.nextImageStateSetter() }}>&gt;</button>
+        
+      </div>  
         <img className="img img-responsive center-block" src={this.showLargeThumbnail()}/>
       </div>
     )
@@ -96,14 +122,16 @@ class MyApp extends React.Component{
      else  if (this.state.selectedAlbum){
     return(
       <div id="MyApp" className="container">
+        <div style={{display:"flex", justifyContent:"center"}}>
         <button className="btn btn-primary btn-lg margin" onClick={()=>{this.setState({selectedAlbum:null})}}>Back to All Albums</button>
+        </div>
         <AlbumImageList 
         images={this.state.selectedAlbum.images} 
-        onImageSelect ={ selectedImage=>this.setState({selectedImage}) } />
+        onImageSelect ={ (selectedImage, index)=>this.setState({selectedImage, index}) } />
       </div>
     )
     }
-    else if (this.state.receivedToken){
+    else if (this.state.receivedToken && this.state.fetchingDataCompleted){
     return(
       <div id="MyApp" className="container">
        <AlbumsList 
@@ -114,6 +142,15 @@ class MyApp extends React.Component{
       </div>
     )
     }
+        else if (this.state.receivedToken){
+    return(
+      <div className = "myWrapper container">
+      
+       <h4 className="text-center" style={{marginTop:"7em"}}>Loading... </h4>
+      </div>
+    )
+    }
+    
     else{
       return(
         <div className = "myWrapper container">

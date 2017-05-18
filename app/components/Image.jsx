@@ -9,7 +9,7 @@ class Image extends React.Component{
     return(
       <div className="grid-item" 
            onClick={ ()=>{
-          this.props.onImageSelect(this.props.image)}}>
+          this.props.onImageSelect(this.props.image, this.props.index)}}>
        <div className="panel">
         <img className="img-thumbnail" src={this.props.thumbnailUrl} />
         <h4 className="text-center"></h4>

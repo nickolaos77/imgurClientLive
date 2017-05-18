@@ -19800,10 +19800,11 @@
 
 	    var _this = _possibleConstructorReturn(this, (MyApp.__proto__ || Object.getPrototypeOf(MyApp)).call(this, props));
 
-	    _this.state = { albums: [], selectedAlbum: null, albumImagesUrls: [], selectedImage: null, receivedToken: false, myInit: {}, user: "" };
+	    _this.state = { albums: [], selectedAlbum: null, albumImagesUrls: [], selectedImage: null, index: null, receivedToken: false, myInit: {}, user: "" };
 
 	    _this.showLargeThumbnail = _this.showLargeThumbnail.bind(_this);
-
+	    _this.nextImageStateSetter = _this.nextImageStateSetter.bind(_this);
+	    _this.previousImageStateSetter = _this.previousImageStateSetter.bind(_this);
 	    return _this;
 	  }
 
@@ -19903,6 +19904,20 @@
 	      return thumbnailUrl;
 	    }
 	  }, {
+	    key: 'nextImageStateSetter',
+	    value: function nextImageStateSetter() {
+	      var nextImage = this.state.index + 1 == this.state.selectedAlbum.images.length ? this.state.selectedAlbum.images[0] : this.state.selectedAlbum.images[this.state.index + 1];
+	      var indexOfNextImage = this.state.index + 1 == this.state.selectedAlbum.images.length ? 0 : this.state.index + 1;
+	      this.setState({ selectedImage: nextImage, index: indexOfNextImage });
+	    }
+	  }, {
+	    key: 'previousImageStateSetter',
+	    value: function previousImageStateSetter() {
+	      var previousImage = this.state.index == 0 ? this.state.selectedAlbum.images[this.state.selectedAlbum.images.length - 1] : this.state.selectedAlbum.images[this.state.index - 1];
+	      var indexOfpreviousImage = this.state.index == 0 ? this.state.selectedAlbum.images.length - 1 : this.state.index - 1;
+	      this.setState({ selectedImage: previousImage, index: indexOfpreviousImage });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this3 = this;
@@ -19917,6 +19932,20 @@
 	                _this3.setState({ selectedImage: null });
 	              } },
 	            'Back to all the Images of the Album'
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'btn btn-primary', onClick: function onClick() {
+	                _this3.nextImageStateSetter();
+	              } },
+	            'Next Image'
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'btn btn-primary', onClick: function onClick() {
+	                _this3.previousImageStateSetter();
+	              } },
+	            'Previous Image'
 	          ),
 	          _react2.default.createElement('img', { className: 'img img-responsive center-block', src: this.showLargeThumbnail() })
 	        );
@@ -19933,8 +19962,8 @@
 	          ),
 	          _react2.default.createElement(_AlbumImageList2.default, {
 	            images: this.state.selectedAlbum.images,
-	            onImageSelect: function onImageSelect(selectedImage) {
-	              return _this3.setState({ selectedImage: selectedImage });
+	            onImageSelect: function onImageSelect(selectedImage, index) {
+	              return _this3.setState({ selectedImage: selectedImage, index: index });
 	            } })
 	        );
 	      } else if (this.state.receivedToken) {
@@ -20147,6 +20176,7 @@
 	    value: function renderImages() {
 	      var _this2 = this;
 
+	      var numberOfImagesInAlbum = this.props.images.length;
 	      return this.props.images.map(function (image, idx) {
 	        //the thumbnailUrl points to the imgur thubnail
 	        var thumbnailUrl = image.link.replace(image.id, image.id + "b");
@@ -20216,7 +20246,7 @@
 	        "div",
 	        { className: "grid-item",
 	          onClick: function onClick() {
-	            _this2.props.onImageSelect(_this2.props.image);
+	            _this2.props.onImageSelect(_this2.props.image, _this2.props.index);
 	          } },
 	        _react2.default.createElement(
 	          "div",
